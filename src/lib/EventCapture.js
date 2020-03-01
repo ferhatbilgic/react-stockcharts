@@ -60,6 +60,8 @@ class EventCapture extends Component {
 			select(this.node)
 				.on(MOUSEENTER, this.handleEnter)
 				.on(MOUSELEAVE, this.handleLeave);
+
+                this.node.addEventListener("wheel", this.handleWheel, { passive: false });
 		}
 	}
 	componentDidUpdate() {
@@ -73,6 +75,9 @@ class EventCapture extends Component {
 			const win = d3Window(this.node);
 			select(win)
 				.on(MOUSEMOVE, null);
+            
+            this.node.removeEventListener("wheel", this.handleWheel, { passive: false });
+
 		}
 	}
 	handleEnter() {
@@ -526,7 +531,6 @@ class EventCapture extends Component {
 				: "react-stockcharts-crosshair-cursor";
 
 		const interactionProps = disableInteraction || {
-			onWheel: this.handleWheel,
 			onMouseDown: this.handleMouseDown,
 			onClick: this.handleClick,
 			onContextMenu: this.handleRightClick,
